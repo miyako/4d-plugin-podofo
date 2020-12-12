@@ -1,0 +1,21 @@
+{
+    "name": "podofo",
+    "id": 20000,
+    "commands": [
+        {
+            "theme": "podofo",
+            "syntax": "podofo_get_form(&J):J",
+            "threadSafe": true
+        },
+        {
+            "theme": "podofo",
+            "syntax": "podofo_set_form(&J):J",
+            "threadSafe": true
+        },
+        {
+            "theme": "podofo",
+            "syntax": "podofo_sign_document(&J):J",
+            "threadSafe": true
+        }
+    ]
+}

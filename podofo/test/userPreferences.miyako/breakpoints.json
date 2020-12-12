@@ -1,0 +1,16 @@
+﻿[
+	{
+		"line": 34,
+		"method": {
+			"type": 1,
+			"methodName": "TEST_get"
+		}
+	},
+	{
+		"line": 22,
+		"method": {
+			"type": 1,
+			"methodName": "TEST_get"
+		}
+	}
+]

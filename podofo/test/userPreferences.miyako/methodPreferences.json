@@ -189,22 +189,22 @@
 		"stamp": "2019-12-13T04:37:40.619Z"
 	},
 	"Sources/Methods/TEST_get.4dm": {
-		"startSelection": 2,
-		"endSelection": 2,
-		"firstSelectedLine": 13,
-		"lastSelectedLine": 13,
+		"startSelection": 71,
+		"endSelection": 71,
+		"firstSelectedLine": 10,
+		"lastSelectedLine": 10,
 		"folding": [],
 		"bookmarks": [],
-		"stamp": "2020-12-12T15:29:06.170Z"
+		"stamp": "2020-12-13T03:16:11.469Z"
 	},
 	"Sources/Methods/TEST_set.4dm": {
-		"startSelection": 38,
+		"startSelection": 0,
 		"endSelection": 0,
-		"firstSelectedLine": 98,
-		"lastSelectedLine": 98,
+		"firstSelectedLine": 55,
+		"lastSelectedLine": 55,
 		"folding": [],
 		"bookmarks": [],
-		"stamp": "2020-12-12T19:50:23.423Z"
+		"stamp": "2020-12-13T03:21:12.909Z"
 	},
 	"Sources/Methods/MEMO_stuff_not_working.4dm": {
 		"startSelection": 49,
@@ -227,11 +227,11 @@
 	"Sources/Methods/TEST_signature_mem.4dm": {
 		"startSelection": 0,
 		"endSelection": 0,
-		"firstSelectedLine": 76,
-		"lastSelectedLine": 76,
+		"firstSelectedLine": 0,
+		"lastSelectedLine": 0,
 		"folding": [],
 		"bookmarks": [],
-		"stamp": "2020-12-12T20:04:48.434Z"
+		"stamp": "2020-12-12T20:04:48.000Z"
 	},
 	"Sources/DatabaseMethods/onWebConnection.4dm": {
 		"startSelection": 5,

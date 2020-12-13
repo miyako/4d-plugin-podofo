@@ -54,9 +54,6 @@ addtional fonts are embedded into the PDF, but does not seem to reflect in field
 
 $params.pages[0].fields[0].font:=""
 $params.pages[0].fields[0].fontSize:=20
-$params.pages[0].fields[0].color:=1/*always black? */
-$params.pages[0].fields[0].borderColor:=Null:C1517
-$params.pages[0].fields[0].backgroundColor:=Null:C1517
 
 /*
 
@@ -73,9 +70,6 @@ $params.pages[0].fields[1].y:=50
 $params.pages[0].fields[1].isChecked:=True:C214
 $params.pages[0].fields[1].fieldName:="check"
 $params.pages[0].fields[1].highlightingMode:="none"
-$params.pages[0].fields[1].color:=New object:C1471("r";1;"g";0;"b";0)
-$params.pages[0].fields[1].borderColor:=Null:C1517
-$params.pages[0].fields[1].backgroundColor:=New object:C1471("r";1;"g";1;"b";0)
 
 /*
 
@@ -280,8 +274,11 @@ End if
 
 $status:=podofo_set_form ($params)
 
-OPEN URL:C673($params.out)
-
+If (Is Windows:C1573)
+	OPEN URL:C673($params.out;"Edge")
+Else 
+	OPEN URL:C673($params.out)
+End if 
 /*
 
 alternatively, pass a picture

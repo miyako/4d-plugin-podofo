@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D01CCC60486CAD60068D4B7"
-               BuildableName = "podofo-toools.bundle"
+               BuildableName = "podofo.bundle"
                BlueprintName = "podofo"
                ReferencedContainer = "container:podofo.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Development"
+      buildConfiguration = "Deployment"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -55,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D01CCC60486CAD60068D4B7"
-            BuildableName = "podofo-toools.bundle"
+            BuildableName = "podofo.bundle"
             BlueprintName = "podofo"
             ReferencedContainer = "container:podofo.xcodeproj">
          </BuildableReference>

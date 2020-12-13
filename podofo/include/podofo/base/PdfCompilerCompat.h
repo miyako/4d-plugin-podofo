@@ -98,8 +98,13 @@
 #include <ctype.h>
 #endif
 
+
 #if PODOFO_HAVE_STRINGS_H
+#if defined(_WIN32)
+#include <string.h>
+#else
 #include <strings.h>
+#endif
 #endif
 
 // alloca() is defined only in <cstdlib> on Mac OS X,

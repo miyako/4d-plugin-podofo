@@ -9,7 +9,7 @@ $params:=New object:C1471
 $params.in:=Folder:C1567(fk resources folder:K87:11).file("acroform.pdf").platformPath
 $params.in:=Folder:C1567(fk resources folder:K87:11).file("fields.pdf").platformPath
 
-$params.in:=Folder:C1567(fk desktop folder:K87:19).file("test.pdf").platformPath
+  //$params.in:=Folder(fk desktop folder).file("test.pdf").platformPath
   //$params.in:=Folder(fk resources folder).file("submit-button-js.pdf").platformPath
 
 /*

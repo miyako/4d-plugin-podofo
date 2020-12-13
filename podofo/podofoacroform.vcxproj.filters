@@ -4,7 +4,10 @@
     <ClCompile Include="4D Plugin API\4DPluginAPI.c">
       <Filter>4D Plugin API</Filter>
     </ClCompile>
-    <ClCompile Include="4DPlugin-podofoacroform.cpp" />
+    <ClCompile Include="4DPlugin-podofo.cpp" />
+    <ClCompile Include="4D Plugin API\Classes\C_BLOB.cpp" />
+    <ClCompile Include="4D Plugin API\Classes\C_TEXT.cpp" />
+    <ClCompile Include="support\4DPlugin-JSON.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="4D Plugin API\4DPluginAPI.h">
@@ -22,7 +25,11 @@
     <ClInclude Include="4D Plugin API\PublicTypes.h">
       <Filter>4D Plugin API</Filter>
     </ClInclude>
-    <ClInclude Include="4DPlugin-podofoacroform.h" />
+    <ClInclude Include="4DPlugin-podofo.h" />
+    <ClInclude Include="4D Plugin API\Classes\C_TEXT.h" />
+    <ClInclude Include="4D Plugin API\Classes\C_TYPES.h" />
+    <ClInclude Include="4D Plugin API\Classes\C_BLOB.h" />
+    <ClInclude Include="support\4DPlugin-JSON.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="4D Plugin API">

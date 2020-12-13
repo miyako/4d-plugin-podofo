@@ -222,17 +222,17 @@ static unsigned int get_param_integer(PA_ObjectRef param,
 #pragma mark -
 
 #ifdef _WIN32
-static void u8_to_u16(std::string& u8, std::wstring& u16) {
+static void u8_to_u16(CUTF8String& u8, CUTF16String& u16) {
     
     int len = MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)u8.c_str(), u8.length(), NULL, 0);
     
     if(len){
         std::vector<uint8_t> buf((len + 1) * sizeof(PA_Unichar));
         if(MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)u8.c_str(), u8.length(), (LPWSTR)&buf[0], len)){
-            u16 = std::wstring((const wchar_t *)&buf[0]);
+            u16 = CUTF16String((const PA_Unichar *)&buf[0]);
         }
     }else{
-        u16 = CUTF16String((const wchar_t *)L"");
+        u16 = CUTF16String((const PA_Unichar *)L"");
     }
 
 }
@@ -640,9 +640,9 @@ static bool set_field_icon(PdfButton *field, PA_ObjectRef fieldObj, PdfPage *pag
             
             if(path.length()) {
 #ifdef _WIN32
-                std::wstring w_param_in;
+                CUTF16String w_param_in;
                 u8_to_u16(path,  w_param_in );
-                const wchar_t *inputfile = path .length() ? w_param_in .c_str() : NULL;
+                const wchar_t *inputfile = path .length() ? (const wchar_t *)w_param_in .c_str() : NULL;
 #else
                 const char *inputfile = path.length() ? (const char *)path.c_str() : NULL;
 #endif
@@ -677,7 +677,9 @@ static bool process_combobox(CUTF8String& type,
     if(type.find((const uint8_t *)"comboBox") != CUTF8String::npos) {
         
         bool didUpdate = false;
-        if (auto it = fields.find(fieldName); it != end(fields)) {
+
+		auto it = fields.find(fieldName);
+        if (it != end(fields)) {
             PdfField field = it->second;
             EPdfField fieldType = field.GetType();
             if(fieldType == ePdfField_PushButton) {
@@ -726,7 +728,9 @@ static bool process_listbox(CUTF8String& type,
     if(type.find((const uint8_t *)"listBox") != CUTF8String::npos) {
         
         bool didUpdate = false;
-        if (auto it = fields.find(fieldName); it != end(fields)) {
+
+		auto it = fields.find(fieldName);
+        if (it != end(fields)) {
             PdfField field = it->second;
             EPdfField fieldType = field.GetType();
             if(fieldType == ePdfField_PushButton) {
@@ -775,7 +779,9 @@ static bool process_radiobutton(CUTF8String& type,
     if(type.find((const uint8_t *)"radioButton") != CUTF8String::npos) {
         
         bool didUpdate = false;
-        if (auto it = fields.find(fieldName); it != end(fields)) {
+        
+		auto it = fields.find(fieldName);
+		if (it != end(fields)) {
             PdfField field = it->second;
             EPdfField fieldType = field.GetType();
             if(fieldType == ePdfField_RadioButton) {
@@ -825,7 +831,9 @@ static bool process_pushbutton(CUTF8String& type,
     if(type.find((const uint8_t *)"pushButton") != CUTF8String::npos) {
         
         bool didUpdate = false;
-        if (auto it = fields.find(fieldName); it != end(fields)) {
+        
+		auto it = fields.find(fieldName);
+		if (it != end(fields)) {
             PdfField field = it->second;
             EPdfField fieldType = field.GetType();
             if(fieldType == ePdfField_PushButton) {
@@ -874,7 +882,9 @@ static bool process_checkbox(CUTF8String& type,
     if(type.find((const uint8_t *)"checkBox") != CUTF8String::npos) {
         
         bool didUpdate = false;
-        if (auto it = fields.find(fieldName); it != end(fields)) {
+        
+		auto it = fields.find(fieldName);
+		if (it != end(fields)) {
             PdfField field = it->second;
             EPdfField fieldType = field.GetType();
             if(fieldType == ePdfField_CheckBox) {
@@ -924,7 +934,8 @@ static bool process_textfield(CUTF8String& type,
     
     if(type.find((const uint8_t *)"textField") != CUTF8String::npos) {
 
-        if (auto it = fields.find(fieldName); it != end(fields)) {
+		auto it = fields.find(fieldName);
+        if (it != end(fields)) {
             PdfField field = it->second;
             EPdfField fieldType = field.GetType();
             if(fieldType == ePdfField_TextField) {
@@ -987,7 +998,7 @@ static bool insert_stamp_annotation(PA_ObjectRef annotationObj, PdfPage *page, P
     
     bool didInsert = false;
     
-    if(ob_is_defined(annotationObj, L"path")) {
+    if(ob_is_defined(annotationObj, L"icon")) {
         
         PdfImage image(document);
         
@@ -1008,9 +1019,9 @@ static bool insert_stamp_annotation(PA_ObjectRef annotationObj, PdfPage *page, P
             
             if(path.length()) {
 #ifdef _WIN32
-                std::wstring w_param_in;
+				CUTF16String w_param_in;
                 u8_to_u16(path,  w_param_in );
-                const wchar_t *inputfile = path .length() ? w_param_in .c_str() : NULL;
+                const wchar_t *inputfile = path .length() ? (const wchar_t *)w_param_in .c_str() : NULL;
 #else
                 const char *inputfile = path.length() ? (const char *)path.c_str() : NULL;
 #endif
@@ -1548,11 +1559,11 @@ void podofo_sign_document(PA_PluginParameters params) {
     int annot_page = get_param_integer(param, L"page");
     
 #ifdef _WIN32
-    std::wstring w_param_in, w_param_out;
+    CUTF16String w_param_in, w_param_out;
     u8_to_u16(param_in,  w_param_in );
     u8_to_u16(param_out, w_param_out);
-    const wchar_t *inputfile  = param_in .length() ? w_param_in .c_str() : NULL;
-    const wchar_t *outputfile = param_out.length() ? w_param_out.c_str() : NULL;
+    const wchar_t *inputfile  = param_in .length() ? (const wchar_t *)w_param_in .c_str() : NULL;
+    const wchar_t *outputfile = param_out.length() ? (const wchar_t *)w_param_out.c_str() : NULL;
 #else
     const char *inputfile  = param_in .length() ? (const char *)param_in .c_str() : NULL;
     const char *outputfile = param_out.length() ? (const char *)param_out.c_str() : NULL;
@@ -2303,9 +2314,9 @@ void podofo_get_form(PA_PluginParameters params) {
     get_param_string(param, L"password", &param_password);
     
 #ifdef _WIN32
-    std::wstring w_param_in;
+    CUTF16String w_param_in;
     u8_to_u16(param_in,  w_param_in);
-    const wchar_t *inputfile  = param_in .length() ? w_param_in .c_str() : NULL;
+    const wchar_t *inputfile  = param_in .length() ? (const wchar_t *)w_param_in .c_str() : NULL;
 #else
     const char *inputfile  = param_in .length() ? (const char *)param_in .c_str() : NULL;
 #endif
@@ -2777,8 +2788,8 @@ static void set_button_field_properties(PdfButton *buttonField, PA_ObjectRef fie
 
 static void set_text_field_properties(PdfTextField *textField, PA_ObjectRef fieldObj, PdfDocument *document) {
     
-    if(ob_is_defined(fieldObj, L"isSetPasswordField")) {
-        textField->SetPasswordField(ob_get_b(fieldObj, L"isSetPasswordField"));
+    if(ob_is_defined(fieldObj, L"isPasswordField")) {
+        textField->SetPasswordField(ob_get_b(fieldObj, L"isPasswordField"));
     }
     if(ob_is_defined(fieldObj, L"isFileField")) {
         textField->SetFileField(ob_get_b(fieldObj, L"isFileField"));
@@ -2901,11 +2912,11 @@ void podofo_set_form(PA_PluginParameters params) {
     get_param_string(param, L"password", &param_password);
     
 #ifdef _WIN32
-    std::wstring w_param_in, w_param_out;
+    CUTF16String w_param_in, w_param_out;
     u8_to_u16(param_in,  w_param_in );
     u8_to_u16(param_out, w_param_out);
-    const wchar_t *inputfile  = param_in .length() ? w_param_in .c_str() : NULL;
-    const wchar_t *outputfile = param_out.length() ? w_param_out.c_str() : NULL;
+    const wchar_t *inputfile  = param_in .length() ? (const wchar_t *)w_param_in .c_str() : NULL;
+    const wchar_t *outputfile = param_out.length() ? (const wchar_t *)w_param_out.c_str() : NULL;
 #else
     const char *inputfile  = param_in .length() ? (const char *)param_in .c_str() : NULL;
     const char *outputfile = param_out.length() ? (const char *)param_out.c_str() : NULL;

@@ -395,7 +395,7 @@
 					"$(PROJECT_DIR)/test/Plugins/podofoacroform.bundle/Contents/MacOS",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -447,7 +447,7 @@
 					"$(PROJECT_DIR)/test/Plugins/podofoacroform.bundle/Contents/MacOS",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -497,7 +497,7 @@
 					"$(PROJECT_DIR)/test/Plugins/podofoacroform.bundle/Contents/MacOS",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";

@@ -1920,14 +1920,10 @@ static void get_page_properties(PdfPage *page, PA_ObjectRef pageObj) {
     ob_set_o(pageObj, "rect", boxObj);
 }
 
-static void get_annotation_properties(PdfField *field, PA_ObjectRef fieldObj) {
-    
-    PdfAnnotation *annotation = field->GetWidgetAnnotation();
-    
+static void get_annotation_properties(PdfAnnotation *annotation, double pageHeight, PA_ObjectRef fieldObj) {
+        
     ob_set_b(fieldObj, L"open", annotation->GetOpen());
 
-    double pageHeight = field->GetPage()->GetPageSize().GetHeight();
-    
     PdfRect rect = annotation->GetRect();
 //    PA_ObjectRef rectObj = PA_CreateObject();
     
@@ -2062,7 +2058,8 @@ static void get_field_properties(PdfField *field, PA_ObjectRef fieldObj) {
     ob_set_b(fieldObj, L"isReadOnly", field->IsReadOnly());
     ob_set_b(fieldObj, L"isRequired", field->IsRequired());
 
-    get_annotation_properties(field, fieldObj);
+    get_annotation_properties(field->GetWidgetAnnotation(),
+                              field->GetPage()->GetPageSize().GetHeight(), fieldObj);
     
     EPdfHighlightingMode highlightingMode = field->GetHighlightingMode();
     
@@ -2346,6 +2343,124 @@ void podofo_get_form(PA_PluginParameters params) {
                 
                 get_page_properties(page, pageObj);
                 
+                int annotationCount = page->GetNumAnnots();
+                
+                PA_CollectionRef annotations = PA_CreateCollection();
+                
+                for(int a = 0; a < annotationCount; ++a) {
+                                    
+                    PdfAnnotation *annotation = page->GetAnnotation(a);
+                    EPdfAnnotation annotationType = annotation->GetType();
+                                    
+                    PA_ObjectRef annotationObj = PA_CreateObject();
+
+                    get_annotation_properties(annotation,
+                                              page->GetPageSize().GetHeight(),
+                                              annotationObj);
+
+                    try{
+                        switch (annotationType) {
+                            case ePdfAnnotation_Text:
+                                ob_set_s(annotationObj, L"type", "text");
+                                break;
+                            case ePdfAnnotation_Link:
+                                ob_set_s(annotationObj, L"type", "link");
+                                break;
+                            case ePdfAnnotation_FreeText:
+                                ob_set_s(annotationObj, L"type", "freeText");
+                                break;
+                            case ePdfAnnotation_Line:
+                                ob_set_s(annotationObj, L"type", "line");
+                                break;
+                            case ePdfAnnotation_Square:
+                                ob_set_s(annotationObj, L"type", "square");
+                                break;
+                            case ePdfAnnotation_Circle:
+                                ob_set_s(annotationObj, L"type", "circle");
+                                break;
+                            case ePdfAnnotation_Polygon:
+                                ob_set_s(annotationObj, L"type", "polygon");
+                                break;
+                            case ePdfAnnotation_PolyLine:
+                                ob_set_s(annotationObj, L"type", "polyLine");
+                                break;
+                            case ePdfAnnotation_Highlight:
+                                ob_set_s(annotationObj, L"type", "highlight");
+                                break;
+                            case ePdfAnnotation_Underline:
+                                ob_set_s(annotationObj, L"type", "underline");
+                                break;
+                            case ePdfAnnotation_Squiggly:
+                                ob_set_s(annotationObj, L"type", "squiggly");
+                                break;
+                            case ePdfAnnotation_StrikeOut:
+                                ob_set_s(annotationObj, L"type", "strikeOut");
+                                break;
+                            case ePdfAnnotation_Stamp:
+                                ob_set_s(annotationObj, L"type", "stamp");
+                                break;
+                            case ePdfAnnotation_Caret:
+                                ob_set_s(annotationObj, L"type", "caret");
+                                break;
+                            case ePdfAnnotation_Ink:
+                                ob_set_s(annotationObj, L"type", "ink");
+                                break;
+                            case ePdfAnnotation_Popup:
+                                ob_set_s(annotationObj, L"type", "popup");
+                                break;
+                            case ePdfAnnotation_FileAttachement:
+                                ob_set_s(annotationObj, L"type", "fileAttachement");
+                                break;
+                            case ePdfAnnotation_Sound:
+                                ob_set_s(annotationObj, L"type", "sound");
+                                break;
+                            case ePdfAnnotation_Movie:
+                                ob_set_s(annotationObj, L"type", "movie");
+                                break;
+                            case ePdfAnnotation_Widget:
+                                ob_set_s(annotationObj, L"type", "widget");
+                                break;
+                            case ePdfAnnotation_Screen:
+                                ob_set_s(annotationObj, L"type", "screen");
+                                break;
+                            case ePdfAnnotation_PrinterMark:
+                                ob_set_s(annotationObj, L"type", "printerMark");
+                                break;
+                            case ePdfAnnotation_TrapNet:
+                                ob_set_s(annotationObj, L"type", "trapNet");
+                                break;
+                            case ePdfAnnotation_Watermark:
+                                ob_set_s(annotationObj, L"type", "watermark");
+                                break;
+                            case ePdfAnnotation_3D:
+                                ob_set_s(annotationObj, L"type", "3D");
+                                break;
+                            case ePdfAnnotation_RichMedia:
+                                ob_set_s(annotationObj, L"type", "richMedia");
+                                break;
+                            case ePdfAnnotation_WebMedia:
+                                ob_set_s(annotationObj, L"type", "webMedia");
+                                break;
+                            default:
+                                ob_set_s(annotationObj, L"type", "unknown");
+                                break;
+                        }
+                  
+                    }catch( PdfError & e )
+                    {
+                        //                        ob_set_n(returnValue, L"error", e.GetError());
+                        //                        ob_set_s(returnValue, L"errorDescription", e.what());
+                        //                        ob_set_s(returnValue, L"errorMessage", PdfError::ErrorMessage(e.GetError()));
+                        
+                        e.PrintErrorMsg();
+                    }
+                    
+                    collection_push(annotations, annotationObj);
+                    
+                }
+                
+                ob_set_c(pageObj, L"annotation", annotations);
+
                 int fieldCount = page->GetNumFields();
                 
                 PA_CollectionRef fields = PA_CreateCollection();

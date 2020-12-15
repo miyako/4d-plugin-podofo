@@ -78,7 +78,7 @@ check box (icon)
 */
 
 C_PICTURE:C286($icon)
-$iconFile:=Folder:C1567(fk resources folder:K87:11).file("4D.jpg").platformPath
+$iconFile:=Folder:C1567(fk resources folder:K87:11).file("4D.png").platformPath
 READ PICTURE FILE:C678($iconFile;$icon)
 
 $params.pages[0].fields[2]:=New object:C1471
@@ -150,7 +150,7 @@ $params.pages[0].fields[5].width:=240
 $params.pages[0].fields[5].height:=30
 $params.pages[0].fields[5].x:=100
 $params.pages[0].fields[5].y:=200
-$params.pages[0].fields[5].isEditable:=True:C214  //not working?
+$params.pages[0].fields[5].isEditable:=True:C214
 $params.pages[0].fields[5].currentItem:=1  //0-based
 $params.pages[0].fields[5].items:=New collection:C1472
 $params.pages[0].fields[5].items[0]:=New object:C1471

@@ -1929,13 +1929,13 @@ static void get_annotation_properties(PdfField *field, PA_ObjectRef fieldObj) {
     double pageHeight = field->GetPage()->GetPageSize().GetHeight();
     
     PdfRect rect = annotation->GetRect();
-    PA_ObjectRef rectObj = PA_CreateObject();
+//    PA_ObjectRef rectObj = PA_CreateObject();
     
-    ob_set_n(rectObj, L"x", rect.GetLeft());
-    ob_set_n(rectObj, L"y", pageHeight - rect.GetBottom() - rect.GetHeight());
-    ob_set_n(rectObj, L"width", rect.GetWidth());
-    ob_set_n(rectObj, L"height", rect.GetHeight());
-    ob_set_o(fieldObj, L"rect", rectObj);
+    ob_set_n(fieldObj, L"x", rect.GetLeft());
+    ob_set_n(fieldObj, L"y", pageHeight - rect.GetBottom() - rect.GetHeight());
+    ob_set_n(fieldObj, L"width", rect.GetWidth());
+    ob_set_n(fieldObj, L"height", rect.GetHeight());
+//    ob_set_o(fieldObj, L"rect", rectObj);
     
     PdfArray colors = annotation->GetColor();
     

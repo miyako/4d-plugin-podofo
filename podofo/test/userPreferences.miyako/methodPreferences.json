@@ -189,22 +189,22 @@
 		"stamp": "2019-12-13T04:37:40.619Z"
 	},
 	"Sources/Methods/TEST_get.4dm": {
-		"startSelection": 71,
-		"endSelection": 71,
-		"firstSelectedLine": 10,
-		"lastSelectedLine": 10,
-		"folding": [],
-		"bookmarks": [],
-		"stamp": "2020-12-13T03:16:11.469Z"
-	},
-	"Sources/Methods/TEST_set.4dm": {
 		"startSelection": 0,
 		"endSelection": 0,
-		"firstSelectedLine": 55,
-		"lastSelectedLine": 55,
+		"firstSelectedLine": 11,
+		"lastSelectedLine": 11,
 		"folding": [],
 		"bookmarks": [],
-		"stamp": "2020-12-13T03:21:12.909Z"
+		"stamp": "2020-12-15T08:02:26.206Z"
+	},
+	"Sources/Methods/TEST_set.4dm": {
+		"startSelection": 42,
+		"endSelection": 0,
+		"firstSelectedLine": 108,
+		"lastSelectedLine": 108,
+		"folding": [],
+		"bookmarks": [],
+		"stamp": "2020-12-14T05:19:36.629Z"
 	},
 	"Sources/Methods/MEMO_stuff_not_working.4dm": {
 		"startSelection": 49,
@@ -241,5 +241,14 @@
 		"folding": [],
 		"bookmarks": [],
 		"stamp": "2020-12-12T15:30:57.323Z"
+	},
+	"Sources/Methods/fix_rotate.4dm": {
+		"startSelection": 34,
+		"endSelection": 34,
+		"firstSelectedLine": 18,
+		"lastSelectedLine": 18,
+		"folding": [],
+		"bookmarks": [],
+		"stamp": "2020-12-15T01:56:02.218Z"
 	}
 }

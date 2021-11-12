@@ -18,6 +18,7 @@
 		D130064F12F02D9700702C0E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D130064E12F02D9700702C0E /* Cocoa.framework */; };
 		D13116A91A03ACB700DE1322 /* 4DPluginAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = D13116A81A03ACB700DE1322 /* 4DPluginAPI.c */; settings = {COMPILER_FLAGS = "-Wno-multichar"; }; };
 		D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = D134D4A91A030B06008D14EF /* manifest.json */; };
+		D1373AEC273EB6760063F0A9 /* libunistring.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1FADBF52582730000EBA204 /* libunistring.a */; };
 		D16C6ECD2584020900A7BE4B /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1FADBF72582730000EBA204 /* libfreetype.a */; };
 		D1FADBF3258272C200EBA204 /* 4DPlugin-JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D1FADBF1258272C200EBA204 /* 4DPlugin-JSON.h */; };
 		D1FADBF4258272C200EBA204 /* 4DPlugin-JSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1FADBF2258272C200EBA204 /* 4DPlugin-JSON.cpp */; };
@@ -29,7 +30,6 @@
 		D1FADC052582731900EBA204 /* libpodofo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1FADBFA2582730000EBA204 /* libpodofo.a */; };
 		D1FADC062582731900EBA204 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1FADBFB2582730000EBA204 /* libssl.a */; };
 		D1FADC072582731900EBA204 /* libtiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1FADBFC2582730000EBA204 /* libtiff.a */; };
-		D1FADC082582731A00EBA204 /* libunistring.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1FADBF52582730000EBA204 /* libunistring.a */; };
 		D1FADC0A2582733E00EBA204 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D1FADC092582732E00EBA204 /* libz.tbd */; };
 		D1FADC0C2582792F00EBA204 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D1FADC0B2582792F00EBA204 /* libbz2.tbd */; };
 		D1FADC112582797100EBA204 /* libexpat.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D1FADC0D2582793F00EBA204 /* libexpat.tbd */; };
@@ -44,7 +44,7 @@
 		D134D4AB1A030B7A008D14EF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = ..;
+			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
 				D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */,
@@ -97,13 +97,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1373AEC273EB6760063F0A9 /* libunistring.a in Frameworks */,
 				D16C6ECD2584020900A7BE4B /* libfreetype.a in Frameworks */,
 				D1FADC112582797100EBA204 /* libexpat.tbd in Frameworks */,
 				D1FADC0C2582792F00EBA204 /* libbz2.tbd in Frameworks */,
 				D1FADC052582731900EBA204 /* libpodofo.a in Frameworks */,
 				D1FADC0A2582733E00EBA204 /* libz.tbd in Frameworks */,
 				D1FADBFF2582731900EBA204 /* libcrypto.a in Frameworks */,
-				D1FADC082582731A00EBA204 /* libunistring.a in Frameworks */,
 				D1FADC062582731900EBA204 /* libssl.a in Frameworks */,
 				D130064F12F02D9700702C0E /* Cocoa.framework in Frameworks */,
 				D1FADC072582731900EBA204 /* libtiff.a in Frameworks */,
@@ -395,7 +395,7 @@
 					"$(PROJECT_DIR)/test/Plugins/podofoacroform.bundle/Contents/MacOS",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -447,7 +447,7 @@
 					"$(PROJECT_DIR)/test/Plugins/podofoacroform.bundle/Contents/MacOS",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -497,7 +497,7 @@
 					"$(PROJECT_DIR)/test/Plugins/podofoacroform.bundle/Contents/MacOS",
 				);
 				LIBRARY_STYLE = Bundle;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -553,7 +553,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OBJROOT = "$(SRCROOT)/build";
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
@@ -599,7 +599,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OBJROOT = "$(SRCROOT)/build";
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
@@ -645,7 +645,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				SDKROOT = macosx;
 				SYMROOT = "$(SRCROOT)/test/Plugins";
 				USER_HEADER_SEARCH_PATHS = include/freetype2;

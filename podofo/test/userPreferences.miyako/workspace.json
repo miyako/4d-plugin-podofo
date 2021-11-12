@@ -1,40 +1,7 @@
 ﻿{
 	"editors": [
 		{
-			"type": "method",
-			"id": 2147483645,
-			"previousTabType": "method",
-			"previousTabID": 2147483638,
-			"codeDescriptor": {
-				"type": 1,
-				"methodName": "TEST_signature"
-			}
-		},
-		{
-			"type": "method",
-			"id": 2147483638,
-			"codeDescriptor": {
-				"type": 1,
-				"methodName": "TEST_rotate"
-			}
-		},
-		{
-			"type": "method",
-			"id": 2147483647,
-			"previousTabType": "method",
-			"previousTabID": 2147483641,
-			"codeDescriptor": {
-				"type": 1,
-				"methodName": "TEST_get"
-			}
-		},
-		{
-			"type": "method",
-			"id": 2147483641,
-			"codeDescriptor": {
-				"type": 1,
-				"methodName": "rotate"
-			}
+			"type": "explorer"
 		}
 	]
 }

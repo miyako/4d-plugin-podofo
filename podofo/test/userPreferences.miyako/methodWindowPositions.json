@@ -157,9 +157,9 @@
 	},
 	"Sources/Methods/TEST_get.4dm": {
 		"left": 818,
-		"top": 158,
+		"top": 132,
 		"width": 877,
-		"height": 611
+		"height": 637
 	},
 	"Sources/Methods/TEST_set.4dm": {
 		"left": 230,
@@ -175,9 +175,9 @@
 	},
 	"Sources/Methods/TEST_signature.4dm": {
 		"left": 287,
-		"top": 180,
+		"top": 206,
 		"width": 718,
-		"height": 716
+		"height": 690
 	},
 	"Sources/Methods/TEST_signature_mem.4dm": {
 		"left": 166,
@@ -198,8 +198,8 @@
 		"height": 690
 	},
 	"Sources/Methods/rotate.4dm": {
-		"left": 818,
-		"top": 132,
+		"left": 463,
+		"top": 163,
 		"width": 877,
 		"height": 637
 	}

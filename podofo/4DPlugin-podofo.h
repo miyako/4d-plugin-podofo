@@ -41,6 +41,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <Cocoa/Cocoa.h>
 #import <AppKit/AppKit.h>
+#define PODOFO_HAVE_OPENSSL_1_1 1
 #endif
 
 using namespace PoDoFo;

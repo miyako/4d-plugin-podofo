@@ -9,3 +9,11 @@ PDF tools based on [podofo 0.9.6](http://podofo.sourceforge.net).
 ### Syntax
 
 [miyako.github.io](https://miyako.github.io/2020/12/12/4d-plugin-podofo.html)
+
+### Notes
+
+to download Apple Silicon bottle with `homebrew`
+
+```sh
+brew fetch --bottle-tag=arm64_big_sur libunistring 
+```

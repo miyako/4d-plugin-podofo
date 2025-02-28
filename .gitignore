@@ -1,3 +1,6 @@
 podofo/build/*
 podofo/test/userPreferences.*
 podofo/test/Project/DerivedData/*
+podofo/.vs/podofo/v17/.suo
+podofo/Objs/*
+podofo/.vs/*

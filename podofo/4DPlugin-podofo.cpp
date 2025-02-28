@@ -605,6 +605,8 @@ static bool set_field_icon_for_state(PdfImage *image, PdfAnnotation *annotation,
     painter.SetPage(&xObj);
     painter.DrawImage(0.0, 0.0, image, 1.0, 1.0 );
     painter.FinishPage();
+
+    return true;
 }
 
 static bool set_field_icon(PdfButton *field, PA_ObjectRef fieldObj, PdfPage *page, PdfRect *rect, PdfDocument *document) {

@@ -1087,115 +1087,6 @@ static bool insert_text_annotation(PA_ObjectRef annotationObj, PdfPage *page, Pd
     return didInsert;
 }
 
-/*
- trying different ways to create string
- if podofo can draw japanese text
- so far, unsuccessful
- */
-
-static void insert_text2(PA_ObjectRef pageObj, double pageHeight, PdfPage *page, PdfDocument *document) {
-    
-    PA_CollectionRef textCol = ob_get_c(pageObj, L"text");
-    if(textCol) {
-        for(PA_long32 t = 0; t < PA_GetCollectionLength(textCol);++t) {
-            PA_ObjectRef textObj = getObjectInCollection(textCol, t);
-            if(textObj) {
-                
-                CUTF16String textValue;
-                if(ob_get_a(textObj, L"value", &textValue)) {
-                    
-                    PA_long32 dataSize = (textValue.length() * sizeof(PA_Unichar) * 2) + (sizeof(PA_Unichar) * 2);
-                    std::vector<char> buf(dataSize);
-                    
-                    buf[0] = 0xFE;
-                    buf[1] = 0xFF;
-                    
-                    PA_long32 len = PA_ConvertCharsetToCharset((char *)textValue.c_str(),
-                                                               textValue.length() * sizeof(PA_Unichar),
-                                                               eVTC_UTF_16,
-                                                               (char *)&buf[2],
-                                                               dataSize,
-                                                               eVTC_UTF_16_BIGENDIAN);
-
-                    std::string utf16bestring(reinterpret_cast<const char *>(&buf[0]), len);
-                    PdfString utextValue(utf16bestring);
-                    
-                    double x, y, width, height;
-                    get_rect(textObj, pageHeight, &x, &y, &width, &height);
-                    PdfRect rect(x, y, width, height);
-                    
-                    bool didDrawText = false;
-                    
-                    PdfPainter painter;
-                    painter.SetPage(page);
-                    
-                    set_color(&painter, textObj);
-                    
-                    PdfFont *font = NULL;
-                    
-                    CUTF8String fontValue;
-                    if(ob_get_s(textObj, L"font", &fontValue)) {
-                        if(fontValue.length()) {
-                            font = document->CreateFont((const char *)fontValue.c_str(), new PdfIdentityEncoding(0, 0xffff, true));
-                        }
-                    }
-                        
-                    if(!font) {
-                        font = document->CreateFont((const char *)"Arial" , new PdfIdentityEncoding(0, 0xffff, true));
-                    }
-                    
-                    if(font) {
-                        painter.SetFont(font);
-                        if(ob_is_defined(textObj, L"fontSize")) {
-                            font->SetFontSize(ob_get_n(textObj, L"fontSize"));
-                        }
-                    }
-                    
-                    CUTF8String alignValue;
-                    if(ob_get_s(textObj, L"halign", &alignValue)) {
-                        EPdfAlignment halign = ePdfAlignment_Left;
-                        if(alignValue.find((const uint8_t *)"right") != CUTF8String::npos) {
-                            halign = ePdfAlignment_Right;
-                        }else
-                            if(alignValue.find((const uint8_t *)"center") != CUTF8String::npos) {
-                                halign = ePdfAlignment_Center;
-                            }
-                        
-                        if(ob_get_s(textObj, L"valign", &alignValue)) {
-                            EPdfVerticalAlignment valign = ePdfVerticalAlignment_Top;
-                            if(alignValue.find((const uint8_t *)"bottom") != CUTF8String::npos) {
-                                valign = ePdfVerticalAlignment_Bottom;
-                            }else
-                                if(alignValue.find((const uint8_t *)"center") != CUTF8String::npos) {
-                                    valign = ePdfVerticalAlignment_Center;
-                                }
-                            painter.DrawMultiLineText(PdfRect(x, y, width, height), utextValue,
-                                                      halign, valign);
-                            didDrawText = true;
-                        }
-                        
-                        if(!didDrawText) {
-                                                        
-                            painter.DrawTextAligned(x, y, width, utextValue, halign);
-                            didDrawText = true;
-                        }
-                    }
-                    
-                    if(!didDrawText) {
-                        painter.DrawText(x, y, utextValue);
-                    }
-                    
-                    painter.FinishPage();
-                }
-                
-            }
-            
-        }
-    }
-    
-}
-
-
 static void insert_text(PA_ObjectRef pageObj, double pageHeight, PdfPage *page, PdfDocument *document) {
     
     PA_CollectionRef textCol = ob_get_c(pageObj, L"text");
@@ -2912,9 +2803,6 @@ static void set_text_field_properties(PdfTextField *textField, PA_ObjectRef fiel
     if(ob_is_defined(fieldObj, L"isScrollBarsEnabled")) {
         textField->SetScrollBarsEnabled(ob_get_b(fieldObj, L"isScrollBarsEnabled"));
     }
-    if(ob_is_defined(fieldObj, L"isCombs")) {
-        textField->SetCombs(ob_get_b(fieldObj, L"isCombs"));
-    }
     if(ob_is_defined(fieldObj, L"isRichText")) {
         textField->SetRichText(ob_get_b(fieldObj, L"isRichText"));
     }
@@ -2927,15 +2815,36 @@ static void set_text_field_properties(PdfTextField *textField, PA_ObjectRef fiel
     if(ob_is_defined(fieldObj, L"maxLen")) {
         textField->SetMaxLen(ob_get_n(fieldObj, L"maxLen"));
     }
-    
-    CUTF8String value;
-    if(ob_get_s(fieldObj, L"value", &value)) {
-        
-        PdfString textValue((const pdf_utf8 *)value.c_str());
-        textField->SetText(textValue);
-        set_text_properties(textField->GetWidgetAnnotation(), fieldObj, "" /*textValue*/, document);
+    if(ob_is_defined(fieldObj, L"isCombs")) {
+        textField->SetCombs(ob_get_b(fieldObj, L"isCombs"));
     }
-  
+    CUTF8String  u8;
+    if(ob_get_s(fieldObj, L"value", &u8)) {
+        
+        PA_long32 dataSize = (u8.length() * sizeof(PA_Unichar) * 2);
+        std::vector<char> buf(dataSize);
+        
+        PA_long32 len = PA_ConvertCharsetToCharset((char *)u8.c_str(),
+                                                   u8.length() * sizeof(PA_Unichar),
+                                                   eVTC_UTF_8,
+                                                   (char *)&buf[0],
+                                                   dataSize,
+                                                   eVTC_UTF_16_BIGENDIAN);
+        
+        PdfString textValue((const pdf_utf16be *)reinterpret_cast<const pdf_utf16be *>(&buf[0]));
+        textField->SetText(textValue);
+
+        /*
+        PdfString textValue((const pdf_utf8 *)u8.c_str());
+        textField->SetText(textValue);
+         */
+        
+        set_text_properties(textField->GetWidgetAnnotation(),
+                            fieldObj,
+                            textValue,
+                            document);
+    }
+    
 }
 
 static void set_annotation_properties(PdfAnnotation *annotation, PA_ObjectRef annotationObj) {

@@ -41,7 +41,7 @@ $params.pages[0].fields[0].width:=400
 $params.pages[0].fields[0].height:=30
 $params.pages[0].fields[0].x:=100
 $params.pages[0].fields[0].y:=20
-  //$params.pages[0].fields[0].unit:="mm"//default=pt
+//$params.pages[0].fields[0].unit:="mm"//default=pt
 
 $params.pages[0].fields[0].value:="【ここにお名前を入力してください！】"
 $params.pages[0].fields[0].maxLen:=-1
@@ -79,7 +79,7 @@ check box (icon)
 
 C_PICTURE:C286($icon)
 $iconFile:=Folder:C1567(fk resources folder:K87:11).file("4D.png").platformPath
-READ PICTURE FILE:C678($iconFile;$icon)
+READ PICTURE FILE:C678($iconFile; $icon)
 
 $params.pages[0].fields[2]:=New object:C1471
 $params.pages[0].fields[2].type:="checkBox"
@@ -116,8 +116,8 @@ $params.pages[0].fields[3].font:=""
 $params.pages[0].fields[3].fontSize:=20
 $params.pages[0].fields[3].fieldName:="reset-button"
 $params.pages[0].fields[3].color:=1/*always black? */
-$params.pages[0].fields[3].borderColor:=New object:C1471("r";1;"g";0;"b";1)
-$params.pages[0].fields[3].backgroundColor:=New object:C1471("r";0.7;"g";0.4;"b";0.4)
+$params.pages[0].fields[3].borderColor:=New object:C1471("r"; 1; "g"; 0; "b"; 1)
+$params.pages[0].fields[3].backgroundColor:=New object:C1471("r"; 0.7; "g"; 0.4; "b"; 0.4)
 
 $params.pages[0].fields[4]:=New object:C1471
 $params.pages[0].fields[4].type:="pushButton"
@@ -135,8 +135,8 @@ $params.pages[0].fields[4].font:=""  //ignored?
 $params.pages[0].fields[4].fontSize:=20
 $params.pages[0].fields[4].fieldName:="link-button"
 $params.pages[0].fields[4].color:=1/*always black? */
-$params.pages[0].fields[4].borderColor:=New object:C1471("r";1;"g";0;"b";1)
-$params.pages[0].fields[4].backgroundColor:=New object:C1471("r";0.7;"g";0.9;"b";0.4)
+$params.pages[0].fields[4].borderColor:=New object:C1471("r"; 1; "g"; 0; "b"; 1)
+$params.pages[0].fields[4].backgroundColor:=New object:C1471("r"; 0.7; "g"; 0.9; "b"; 0.4)
 
 /*
 
@@ -165,7 +165,7 @@ $params.pages[0].fields[5].items[2].displayText:="value 3"
 $params.pages[0].fields[5].font:=""  //ignored?
 $params.pages[0].fields[5].fontSize:=20
 $params.pages[0].fields[5].fieldName:="combo"
-$params.pages[0].fields[4].borderColor:=Null:C1517
+$params.pages[0].fields[5].borderColor:=Null:C1517
 
 If (False:C215)
 	
@@ -195,7 +195,7 @@ halign + width
 	$params.pages[0].text[1].font:="Times"
 	$params.pages[0].text[1].fontSize:=24
 	$params.pages[0].text[1].value:="abcde"
-	$params.pages[0].text[1].color:=New object:C1471("r";0.8;"g";0;"b";0)
+	$params.pages[0].text[1].color:=New object:C1471("r"; 0.8; "g"; 0; "b"; 0)
 /*
 halign + width, valign + height
 */
@@ -215,7 +215,7 @@ End if
 
 If (False:C215)
 	
-	  //submit:probably not working
+	//submit:probably not working
 	
 	$params.pages[0].fields[6]:=New object:C1471
 	$params.pages[0].fields[6].type:="pushButton"
@@ -232,10 +232,10 @@ If (False:C215)
 	$params.pages[0].fields[6].fontSize:=20
 	$params.pages[0].fields[6].fieldName:="submit-button"
 	$params.pages[0].fields[6].color:=1/*always black? */
-	$params.pages[0].fields[6].borderColor:=New object:C1471("r";1;"g";0;"b";1)
-	$params.pages[0].fields[6].backgroundColor:=New object:C1471("r";0.3;"g";0.9;"b";0.9)
+	$params.pages[0].fields[6].borderColor:=New object:C1471("r"; 1; "g"; 0; "b"; 1)
+	$params.pages[0].fields[6].backgroundColor:=New object:C1471("r"; 0.3; "g"; 0.9; "b"; 0.9)
 	
-	  //script:probably not working
+	//script:probably not working
 	
 	$params.pages[0].fields[7]:=New object:C1471
 	$params.pages[0].fields[7].type:="pushButton"
@@ -247,11 +247,11 @@ If (False:C215)
 	$params.pages[0].fields[7].action:="script"
 	
 	$lines:=New collection:C1472(\
-		"var aSubmitFields = new Array(\"name\",\"id\",\"user\");";\
-		"this.submitForm({";\
-		"cURL:\"http://127.0.0.1/cgi-bin/myscript.cgi#FDF\",";\
-		"aFields:aSubmitFields,";\
-		"cSubmitAs:\"FDF\";";\
+		"var aSubmitFields = new Array(\"name\",\"id\",\"user\");"; \
+		"this.submitForm({"; \
+		"cURL:\"http://127.0.0.1/cgi-bin/myscript.cgi#FDF\","; \
+		"aFields:aSubmitFields,"; \
+		"cSubmitAs:\"FDF\";"; \
 		"})")
 	
 	$js:=$lines.join("\r\n")
@@ -265,17 +265,17 @@ If (False:C215)
 	$params.pages[0].fields[7].fontSize:=20
 	$params.pages[0].fields[7].fieldName:="script-button"
 	$params.pages[0].fields[7].color:=1/*always black? */
-	$params.pages[0].fields[7].borderColor:=New object:C1471("r";1;"g";0;"b";1)
-	$params.pages[0].fields[7].backgroundColor:=New object:C1471("r";0;"g";0.4;"b";0.9)
+	$params.pages[0].fields[7].borderColor:=New object:C1471("r"; 1; "g"; 0; "b"; 1)
+	$params.pages[0].fields[7].backgroundColor:=New object:C1471("r"; 0; "g"; 0.4; "b"; 0.9)
 	
-	  //https://www.w3.org/WAI/WCAG21/Techniques/pdf/PDF15
+	//https://www.w3.org/WAI/WCAG21/Techniques/pdf/PDF15
 	
 End if 
 
-$status:=podofo_set_form ($params)
+$status:=podofo_set_form($params)
 
 If (Is Windows:C1573)
-	OPEN URL:C673($params.out;"Edge")
+	OPEN URL:C673($params.out; "Edge")
 Else 
 	OPEN URL:C673($params.out)
 End if 
@@ -285,8 +285,8 @@ alternatively, pass a picture
 
 */
 
-  //CLEAR VARIABLE($status)
-  //READ PICTURE FILE($params.in;$PDF)
-  //$params.in:=$PDF
+//CLEAR VARIABLE($status)
+//READ PICTURE FILE($params.in;$PDF)
+//$params.in:=$PDF
 
-  //$status:=podofo_set_form ($params)
+//$status:=podofo_set_form ($params)

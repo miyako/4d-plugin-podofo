@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1031EC43-92AD-47EA-AE42-6343ACA6E33B"
-            shouldBeEnabled = "Yes"
+            uuid = "1191F9BE-1033-4C4B-A9C4-A84375102762"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "4DPlugin-podofo.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1859"
-            endingLineNumber = "1859"
-            landmarkName = "podofo_sign_document(params)"
+            startingLineNumber = "2834"
+            endingLineNumber = "2834"
+            landmarkName = "set_text_field_properties(textField, fieldObj, document)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

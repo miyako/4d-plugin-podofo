@@ -2812,15 +2812,10 @@ static void set_text_field_properties(PdfTextField *textField, PA_ObjectRef fiel
     if(ob_is_defined(fieldObj, L"isSpellcheckingEnabled")) {
         textField->SetSpellcheckingEnabled(ob_get_n(fieldObj, L"isSpellcheckingEnabled"));
     }
-    if(ob_is_defined(fieldObj, L"maxLen")) {
-        textField->SetMaxLen(ob_get_n(fieldObj, L"maxLen"));
-    }
-    if(ob_is_defined(fieldObj, L"isCombs")) {
-        textField->SetCombs(ob_get_b(fieldObj, L"isCombs"));
-    }
+
     CUTF8String  u8;
     if(ob_get_s(fieldObj, L"value", &u8)) {
-        
+        /*
         PA_long32 dataSize = (u8.length() * sizeof(PA_Unichar) * 2);
         std::vector<char> buf(dataSize);
         
@@ -2832,10 +2827,9 @@ static void set_text_field_properties(PdfTextField *textField, PA_ObjectRef fiel
                                                    eVTC_UTF_16_BIGENDIAN);
 
         PdfString textValue((const pdf_utf16be *)reinterpret_cast<const pdf_utf16be *>(&buf[0]));
-    
-        /*
+    */
+        
         PdfString textValue((const pdf_utf8 *)u8.c_str());
-         */
         
         set_text_properties(textField->GetWidgetAnnotation(),
                             fieldObj,
@@ -2844,6 +2838,13 @@ static void set_text_field_properties(PdfTextField *textField, PA_ObjectRef fiel
         
         textField->SetText(textValue);
 
+    }
+    
+    if(ob_is_defined(fieldObj, L"maxLen")) {
+        textField->SetMaxLen(ob_get_n(fieldObj, L"maxLen"));
+    }
+    if(ob_is_defined(fieldObj, L"isCombs")) {
+        textField->SetCombs(ob_get_b(fieldObj, L"isCombs"));
     }
     
 }

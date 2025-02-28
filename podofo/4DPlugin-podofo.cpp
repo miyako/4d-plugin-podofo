@@ -2830,19 +2830,20 @@ static void set_text_field_properties(PdfTextField *textField, PA_ObjectRef fiel
                                                    (char *)&buf[0],
                                                    dataSize,
                                                    eVTC_UTF_16_BIGENDIAN);
-        
-        PdfString textValue((const pdf_utf16be *)reinterpret_cast<const pdf_utf16be *>(&buf[0]));
-        textField->SetText(textValue);
 
+        PdfString textValue((const pdf_utf16be *)reinterpret_cast<const pdf_utf16be *>(&buf[0]));
+    
         /*
         PdfString textValue((const pdf_utf8 *)u8.c_str());
-        textField->SetText(textValue);
          */
         
         set_text_properties(textField->GetWidgetAnnotation(),
                             fieldObj,
                             textValue,
                             document);
+        
+        textField->SetText(textValue);
+
     }
     
 }

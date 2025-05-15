@@ -17,8 +17,8 @@ static void OnStartup() {
 #ifdef PODOFO_HAVE_OPENSSL_1_1
     OPENSSL_init_crypto(0, NULL);
 #else
-    OpenSSL_add_all_algorithms();
-    ERR_load_crypto_strings();
+    //OpenSSL_add_all_algorithms();
+    //ERR_load_crypto_strings();
     ERR_load_PEM_strings();
     ERR_load_ASN1_strings();
     ERR_load_EVP_strings();

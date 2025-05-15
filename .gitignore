@@ -4,3 +4,6 @@ podofo/test/Project/DerivedData/*
 podofo/.vs/podofo/v17/.suo
 podofo/Objs/*
 podofo/.vs/*
+podofo/test/Plugins/podofo.bundle/Contents/Windows64/podofo.exp
+podofo/test/Plugins/podofo.bundle/Contents/Windows64/podofo.lib
+podofo/test/Plugins/podofo.bundle/Contents/Windows64/podofo.lib

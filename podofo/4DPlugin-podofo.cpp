@@ -2771,6 +2771,28 @@ static void set_list_field_properties(PdfListField *listField, PA_ObjectRef fiel
     set_text_properties(listField->GetWidgetAnnotation(), fieldObj, "", document);
 }
 
+static void set_button_field_properties(PdfButton *buttonField, PA_ObjectRef fieldObj, PdfDocument *document) {
+
+    CUTF8String caption;
+    if(ob_get_s(fieldObj, L"caption", &caption)) {
+        PdfString textValue((const pdf_utf8 *)caption.c_str());
+        buttonField->SetCaption(textValue);
+        set_text_properties(buttonField->GetWidgetAnnotation(), fieldObj, "" /*textValue*/, document);
+    }
+    
+    if(buttonField->IsCheckBox()) {
+        set_checkbox_field_properties((PdfCheckBox *)buttonField, fieldObj);
+    }
+    if(buttonField->IsPushButton()) {
+        set_pushbutton_field_properties((PdfPushButton *)buttonField, fieldObj, document);
+    }
+
+    if(buttonField->IsRadioButton()) {
+        //PdfRadioButton not implemented
+    }
+    
+}
+
 static void set_text_field_properties(PdfTextField *textField, PA_ObjectRef fieldObj, PdfDocument *document) {
     
     try {
@@ -2921,63 +2943,6 @@ static void set_text_field_properties(PdfTextField *textField, PA_ObjectRef fiel
             textField->SetText(textValue);
         }
     }
-}
-
-static void set_text_field_properties(PdfTextField *textField, PA_ObjectRef fieldObj, PdfDocument *document) {
-    
-    if(ob_is_defined(fieldObj, L"isPasswordField")) {
-        textField->SetPasswordField(ob_get_b(fieldObj, L"isPasswordField"));
-    }
-    if(ob_is_defined(fieldObj, L"isFileField")) {
-        textField->SetFileField(ob_get_b(fieldObj, L"isFileField"));
-    }
-    if(ob_is_defined(fieldObj, L"isScrollBarsEnabled")) {
-        textField->SetScrollBarsEnabled(ob_get_b(fieldObj, L"isScrollBarsEnabled"));
-    }
-    if(ob_is_defined(fieldObj, L"isRichText")) {
-        textField->SetRichText(ob_get_b(fieldObj, L"isRichText"));
-    }
-    if(ob_is_defined(fieldObj, L"isMultiLine")) {
-        textField->SetMultiLine(ob_get_b(fieldObj, L"isMultiLine"));
-    }
-    if(ob_is_defined(fieldObj, L"isSpellcheckingEnabled")) {
-        textField->SetSpellcheckingEnabled(ob_get_n(fieldObj, L"isSpellcheckingEnabled"));
-    }
-
-    CUTF8String  u8;
-    if(ob_get_s(fieldObj, L"value", &u8)) {
-        /*
-        PA_long32 dataSize = (u8.length() * sizeof(PA_Unichar) * 2);
-        std::vector<char> buf(dataSize);
-        
-        PA_long32 len = PA_ConvertCharsetToCharset((char *)u8.c_str(),
-                                                   u8.length() * sizeof(PA_Unichar),
-                                                   eVTC_UTF_8,
-                                                   (char *)&buf[0],
-                                                   dataSize,
-                                                   eVTC_UTF_16_BIGENDIAN);
-
-        PdfString textValue((const pdf_utf16be *)reinterpret_cast<const pdf_utf16be *>(&buf[0]));
-    */
-        
-        PdfString textValue((const pdf_utf8 *)u8.c_str());
-        
-        set_text_properties(textField->GetWidgetAnnotation(),
-                            fieldObj,
-                            textValue,
-                            document);
-        
-        textField->SetText(textValue);
-
-    }
-    
-    if(ob_is_defined(fieldObj, L"maxLen")) {
-        textField->SetMaxLen(ob_get_n(fieldObj, L"maxLen"));
-    }
-    if(ob_is_defined(fieldObj, L"isCombs")) {
-        textField->SetCombs(ob_get_b(fieldObj, L"isCombs"));
-    }
-    
 }
 
 static void set_annotation_properties(PdfAnnotation *annotation, PA_ObjectRef annotationObj) {

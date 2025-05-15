@@ -2796,59 +2796,154 @@ static void set_button_field_properties(PdfButton *buttonField, PA_ObjectRef fie
 
 static void set_text_field_properties(PdfTextField *textField, PA_ObjectRef fieldObj, PdfDocument *document) {
     
-    if(ob_is_defined(fieldObj, L"isPasswordField")) {
-        textField->SetPasswordField(ob_get_b(fieldObj, L"isPasswordField"));
+    try {
+        if(ob_is_defined(fieldObj, L"isPasswordField")) {
+            textField->SetPasswordField(ob_get_b(fieldObj, L"isPasswordField"));
+        }
+        if(ob_is_defined(fieldObj, L"isFileField")) {
+            textField->SetFileField(ob_get_b(fieldObj, L"isFileField"));
+        }
+        if(ob_is_defined(fieldObj, L"isScrollBarsEnabled")) {
+            textField->SetScrollBarsEnabled(ob_get_b(fieldObj, L"isScrollBarsEnabled"));
+        }
+        if(ob_is_defined(fieldObj, L"isRichText")) {
+            textField->SetRichText(ob_get_b(fieldObj, L"isRichText"));
+        }
+        if(ob_is_defined(fieldObj, L"isMultiLine")) {
+            textField->SetMultiLine(ob_get_b(fieldObj, L"isMultiLine"));
+        }
+        if(ob_is_defined(fieldObj, L"isSpellcheckingEnabled")) {
+            textField->SetSpellcheckingEnabled(ob_get_n(fieldObj, L"isSpellcheckingEnabled"));
+        }
+    } catch (...) {
     }
-    if(ob_is_defined(fieldObj, L"isFileField")) {
-        textField->SetFileField(ob_get_b(fieldObj, L"isFileField"));
+
+    int maxLen = 0;
+    bool isCombs = false;
+    
+    if (ob_is_defined(fieldObj, L"maxLen")) {
+        maxLen = ob_get_n(fieldObj, L"maxLen");
     }
-    if(ob_is_defined(fieldObj, L"isScrollBarsEnabled")) {
-        textField->SetScrollBarsEnabled(ob_get_b(fieldObj, L"isScrollBarsEnabled"));
-    }
-    if(ob_is_defined(fieldObj, L"isRichText")) {
-        textField->SetRichText(ob_get_b(fieldObj, L"isRichText"));
-    }
-    if(ob_is_defined(fieldObj, L"isMultiLine")) {
-        textField->SetMultiLine(ob_get_b(fieldObj, L"isMultiLine"));
-    }
-    if(ob_is_defined(fieldObj, L"isSpellcheckingEnabled")) {
-        textField->SetSpellcheckingEnabled(ob_get_n(fieldObj, L"isSpellcheckingEnabled"));
+    
+    if (ob_is_defined(fieldObj, L"isCombs")) {
+        isCombs = ob_get_b(fieldObj, L"isCombs");
+        textField->SetCombs(isCombs);
+        
+        if (isCombs && maxLen > 0) {
+            try {
+                textField->SetMaxLen(maxLen);
+                
+                PdfDictionary& dict = textField->GetWidgetAnnotation()->GetObject()->GetDictionary();
+                
+                dict.AddKey("Q", PdfVariant(static_cast<pdf_int64>(1)));
+                
+                if (dict.HasKey("Ff") && dict.GetKey("Ff")->IsNumber()) {
+                    pdf_int64 flags = dict.GetKey("Ff")->GetNumber();
+                    flags |= 0x1000000; // Comb flag
+                    dict.AddKey("Ff", PdfVariant(static_cast<pdf_int64>(flags)));
+                }
+            } catch (...) {
+            }
+        }
+    } else if (maxLen > 0) {
+        textField->SetMaxLen(maxLen);
     }
 
     CUTF8String  u8;
     if(ob_get_s(fieldObj, L"value", &u8)) {
-        /*
-        PA_long32 dataSize = (u8.length() * sizeof(PA_Unichar) * 2);
-        std::vector<char> buf(dataSize);
-        
-        PA_long32 len = PA_ConvertCharsetToCharset((char *)u8.c_str(),
-                                                   u8.length() * sizeof(PA_Unichar),
-                                                   eVTC_UTF_8,
-                                                   (char *)&buf[0],
-                                                   dataSize,
-                                                   eVTC_UTF_16_BIGENDIAN);
-
-        PdfString textValue((const pdf_utf16be *)reinterpret_cast<const pdf_utf16be *>(&buf[0]));
-    */
-        
-        PdfString textValue((const pdf_utf8 *)u8.c_str());
-        
-        set_text_properties(textField->GetWidgetAnnotation(),
-                            fieldObj,
-                            textValue,
-                            document);
-        
-        textField->SetText(textValue);
-
+        try {
+            if(u8.length() > 0) {
+                if(isCombs) {
+                    std::string cleanedStr;
+                    const uint8_t* rawStr = u8.c_str();
+                    for (size_t i = 0; i < u8.length(); i++) {
+                        if (rawStr[i] >= 32 && rawStr[i] != 127) {
+                            cleanedStr += (char)rawStr[i];
+                        }
+                    }
+                    
+                    if (maxLen > 0 && cleanedStr.length() > (size_t)maxLen) {
+                        size_t safePos = maxLen;
+                        while (safePos > 0 && (cleanedStr[safePos] & 0xC0) == 0x80) {
+                            safePos--;
+                        }
+                        cleanedStr = cleanedStr.substr(0, safePos);
+                    }
+                    
+                    PdfString textValue((const pdf_utf8 *)cleanedStr.c_str());
+                    
+                    set_text_properties(textField->GetWidgetAnnotation(),
+                                      fieldObj,
+                                      textValue,
+                                      document);
+                    
+                    textField->SetText(textValue);
+                    
+                    PdfDictionary& dict = textField->GetWidgetAnnotation()->GetObject()->GetDictionary();
+                    
+                    if (dict.HasKey("Ff") && dict.GetKey("Ff")->IsNumber()) {
+                        pdf_int64 flags = dict.GetKey("Ff")->GetNumber();
+                        flags |= 0x1000000; // Comb flag
+                        dict.AddKey("Ff", PdfVariant(static_cast<pdf_int64>(flags)));
+                    }
+                    
+                    dict.AddKey("Q", PdfVariant(static_cast<pdf_int64>(1)));
+                    dict.AddKey("V", textValue);
+                } else {
+                    std::string cleanedStr((const char*)u8.c_str());
+                    if (maxLen > 0 && cleanedStr.length() > (size_t)maxLen) {
+                        size_t safePos = maxLen;
+                        while (safePos > 0 && (cleanedStr[safePos] & 0xC0) == 0x80) {
+                            safePos--;
+                        }
+                        cleanedStr = cleanedStr.substr(0, safePos);
+                    }
+                    
+                    PA_long32 dataSize = (cleanedStr.length() * sizeof(PA_Unichar) * 2) + 4;
+                    std::vector<char> buf(dataSize, 0);
+                    
+                    PA_long32 len = PA_ConvertCharsetToCharset((char *)cleanedStr.c_str(),
+                                                           cleanedStr.length() * sizeof(PA_Unichar),
+                                                           eVTC_UTF_8,
+                                                           (char *)&buf[0],
+                                                           dataSize,
+                                                           eVTC_UTF_16_BIGENDIAN);
+                    
+                    if(len > 0) {
+                        PdfString textValue((const pdf_utf16be *)reinterpret_cast<const pdf_utf16be *>(&buf[0]));
+                        
+                        set_text_properties(textField->GetWidgetAnnotation(),
+                                          fieldObj,
+                                          textValue,
+                                          document);
+                        
+                        textField->SetText(textValue);
+                        
+                        PdfDictionary& dict = textField->GetWidgetAnnotation()->GetObject()->GetDictionary();
+                        dict.AddKey("V", textValue);
+                    } else {
+                        PdfString textValue((const pdf_utf8 *)cleanedStr.c_str());
+                        
+                        set_text_properties(textField->GetWidgetAnnotation(),
+                                          fieldObj,
+                                          textValue,
+                                          document);
+                        
+                        textField->SetText(textValue);
+                        
+                        PdfDictionary& dict = textField->GetWidgetAnnotation()->GetObject()->GetDictionary();
+                        dict.AddKey("V", textValue);
+                    }
+                }
+            } else {
+                PdfString textValue;
+                textField->SetText(textValue);
+            }
+        } catch(const std::exception& e) {
+            PdfString textValue((const pdf_utf8 *)u8.c_str());
+            textField->SetText(textValue);
+        }
     }
-    
-    if(ob_is_defined(fieldObj, L"maxLen")) {
-        textField->SetMaxLen(ob_get_n(fieldObj, L"maxLen"));
-    }
-    if(ob_is_defined(fieldObj, L"isCombs")) {
-        textField->SetCombs(ob_get_b(fieldObj, L"isCombs"));
-    }
-    
 }
 
 static void set_annotation_properties(PdfAnnotation *annotation, PA_ObjectRef annotationObj) {

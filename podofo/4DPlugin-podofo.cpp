@@ -2783,6 +2783,7 @@ static void set_button_field_properties(PdfButton *buttonField, PA_ObjectRef fie
     if(buttonField->IsCheckBox()) {
         set_checkbox_field_properties((PdfCheckBox *)buttonField, fieldObj);
     }
+
     if(buttonField->IsPushButton()) {
         set_pushbutton_field_properties((PdfPushButton *)buttonField, fieldObj, document);
     }
